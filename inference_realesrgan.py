@@ -2,6 +2,8 @@ import argparse
 import cv2
 import glob
 import os
+from tkinter import filedialog  # Import filedialog
+from tkinter import Tk  # Import Tk for filedialog
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from basicsr.utils.download_util import load_file_from_url
 
@@ -12,8 +14,22 @@ from realesrgan.archs.srvgg_arch import SRVGGNetCompact
 def main():
     """Inference demo for Real-ESRGAN.
     """
+    os.chdir('C:\\Users\\{current_user}\\Real-ESRGAN\\')
+    root = Tk()
+    root.withdraw()  # Hide the Tk window
+    # folder_path = None
+    folder_path = filedialog.askdirectory(title="Select Folder")  # Open folder dialog
+
+    # Generate the default output folder name based on the selected input folder
+    output_folder_name = "Upscale_" + os.path.basename(folder_path)
+
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', type=str, default='inputs', help='Input image or folder')
+    parser.add_argument(
+        '-i', '--input',
+        type=str,
+        default=folder_path,  # Set the default to the selected folder
+        help='Input image or folder'
+    )
     parser.add_argument(
         '-n',
         '--model_name',
@@ -21,7 +37,12 @@ def main():
         default='RealESRGAN_x4plus',
         help=('Model names: RealESRGAN_x4plus | RealESRNet_x4plus | RealESRGAN_x4plus_anime_6B | RealESRGAN_x2plus | '
               'realesr-animevideov3 | realesr-general-x4v3'))
-    parser.add_argument('-o', '--output', type=str, default='results', help='Output folder')
+    parser.add_argument(
+        '-o', '--output',
+        type=str,
+        default=os.path.join(folder_path, output_folder_name),  # Set the default output folder
+        help='Output folder'
+    )
     parser.add_argument(
         '-dn',
         '--denoise_strength',
@@ -38,7 +59,7 @@ def main():
     parser.add_argument('--pre_pad', type=int, default=0, help='Pre padding size at each border')
     parser.add_argument('--face_enhance', action='store_true', help='Use GFPGAN to enhance face')
     parser.add_argument(
-        '--fp32', action='store_true', help='Use fp32 precision during inference. Default: fp16 (half precision).')
+        '--fp32', action='store_true', default=True, help='Use fp32 precision during inference. Default: fp16 (half precision).')
     parser.add_argument(
         '--alpha_upsampler',
         type=str,
@@ -128,7 +149,8 @@ def main():
     if os.path.isfile(args.input):
         paths = [args.input]
     else:
-        paths = sorted(glob.glob(os.path.join(args.input, '*')))
+        # List only files in the selected folder, ignoring subfolders
+        paths = [f for f in glob.glob(os.path.join(args.input, '*')) if os.path.isfile(f)]
 
     for idx, path in enumerate(paths):
         imgname, extension = os.path.splitext(os.path.basename(path))
