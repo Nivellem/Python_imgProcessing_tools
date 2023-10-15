@@ -3,6 +3,7 @@ from tkinter import filedialog, Tk  # Import filedialog
 from PIL import Image, ImageDraw, ImageFont
 from PIL import ImageFilter
 from PIL import ImageChops
+# To change transparency check line 37 and 52
 
 
 def add_watermark(input_image_path, output_image_path):
@@ -33,7 +34,7 @@ def add_watermark(input_image_path, output_image_path):
     watermark_draw = ImageDraw.Draw(watermark)
     
     # Draw the white text with 50% opacity
-    watermark_draw.text((x_offset, y_offset), txt, font=fnt, fill=(255, 255, 255, 64))  # 128 for 50% opacity
+    watermark_draw.text((x_offset, y_offset), txt, font=fnt, fill=(255, 255, 255, 32))  # <--- 128 for 50% opacity 
     
     # Create a separate image to draw the shadow
     shadow_layer = Image.new('RGBA', original_image.size, (0, 0, 0, 0))
@@ -48,7 +49,7 @@ def add_watermark(input_image_path, output_image_path):
         (x_offset + shadow_offset_x, y_offset + shadow_offset_y),
         text=txt,
         font=fnt,
-        fill=(0, 0, 0, 255)  # RGBA: Black color with 50% opacity
+        fill=(0, 0, 0, 64)  # <--- 128 for 50% opacity 
     )
     
     # Crop the area around the shadow text
