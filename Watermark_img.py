@@ -2,7 +2,7 @@ import os
 from tkinter import filedialog, Tk  # Import filedialog
 from PIL import Image, ImageDraw, ImageFont
 from PIL import ImageFilter
-# from PIL import ImageChops
+from PIL import ImageChops
 
 
 def add_watermark(input_image_path, output_image_path):
@@ -15,7 +15,7 @@ def add_watermark(input_image_path, output_image_path):
     width, height = original_image.size
 
     # Create a drawing object
-    draw = ImageDraw.Draw(original_image)
+    # draw = ImageDraw.Draw(original_image)
 
     # Load the Tahoma font
     try:
@@ -29,6 +29,11 @@ def add_watermark(input_image_path, output_image_path):
     
     x_offset = int(width * 0.72)
     y_offset = int(height * 0.92)
+    watermark = Image.new('RGBA', original_image.size, (0, 0, 0, 0))
+    watermark_draw = ImageDraw.Draw(watermark)
+    
+    # Draw the white text with 50% opacity
+    watermark_draw.text((x_offset, y_offset), txt, font=fnt, fill=(255, 255, 255, 64))  # 128 for 50% opacity
     
     # Create a separate image to draw the shadow
     shadow_layer = Image.new('RGBA', original_image.size, (0, 0, 0, 0))
@@ -56,18 +61,21 @@ def add_watermark(input_image_path, output_image_path):
     # Apply Gaussian blur to the shadow
     blurred_shadow = shadow_layer.filter(ImageFilter.GaussianBlur(10))  # The parameter controls the blur radius
 
-    # Convert the blurred shadow to RGBA if it's not
-    if blurred_shadow.mode != 'RGBA':
-        blurred_shadow = blurred_shadow.convert('RGBA')
+    # Create a blank image for text masking
+    text_mask = Image.new('RGBA', original_image.size, (0, 0, 0, 0))
+    text_draw = ImageDraw.Draw(text_mask)
 
-    # Paste the blurred shadow back onto the original image
-    original_image = Image.alpha_composite(original_image, blurred_shadow)  # The mask ensures the alpha channel is used
+    # Draw text on the blank image
+    text_draw.text((x_offset, y_offset), text=txt, font=fnt, fill=(255, 255, 255, 255))
 
-    # Draw text
-    draw.text((x_offset, y_offset), text=txt, font=fnt, fill=(255, 255, 255, 255))
+    # Subtract the text from the blurred shadow layer
+    subtracted_shadow = ImageChops.subtract(blurred_shadow, text_mask)
 
-    # Save watermarked image
-    original_image.save(output_image_path)
+    # Composite the subtracted and blurred shadow onto the original image
+    final_image = Image.alpha_composite(original_image, subtracted_shadow)
+    final_image_with_white = Image.alpha_composite(final_image, watermark)
+    # Save the final image
+    final_image_with_white.save(output_image_path)
 
 
 def main():
