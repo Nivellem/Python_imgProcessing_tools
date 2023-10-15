@@ -14,12 +14,18 @@ from realesrgan.archs.srvgg_arch import SRVGGNetCompact
 def main():
     """Inference demo for Real-ESRGAN.
     """
-    os.chdir('C:\\Users\\{current_user}\\Real-ESRGAN\\')
+    current_user = os.getlogin()
+    os.chdir(f'C:\\Users\\{current_user}\\Real-ESRGAN\\')
     root = Tk()
     root.withdraw()  # Hide the Tk window
-    # folder_path = None
-    folder_path = filedialog.askdirectory(title="Select Folder")  # Open folder dialog
-
+    folder_path = None
+    
+    while not folder_path:  # Loop until a folder is selected
+        folder_path = filedialog.askdirectory(title="Select Folder")  # Open folder dialog
+        if not folder_path:
+            print("No folder selected. Please choose a folder to proceed.")
+        root.destroy()  # Destroy the Tk root window
+        
     # Generate the default output folder name based on the selected input folder
     output_folder_name = "Upscale_" + os.path.basename(folder_path)
 

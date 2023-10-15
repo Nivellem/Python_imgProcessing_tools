@@ -1,11 +1,17 @@
 import os
-from tkinter import filedialog, Tk
+from tkinter import filedialog, Tk  # Import filedialog
 from PIL import Image, ImageDraw, ImageFont
+from PIL import ImageFilter
+# from PIL import ImageChops
 
 
 def add_watermark(input_image_path, output_image_path):
     # Load the image
-    original_image = Image.open(input_image_path)
+    # original_image = Image.open(input_image_path)
+    
+    if (Image.open(input_image_path)).mode != 'RGBA':
+        original_image = (Image.open(input_image_path)).convert('RGBA')
+    
     width, height = original_image.size
 
     # Create a drawing object
@@ -13,27 +19,52 @@ def add_watermark(input_image_path, output_image_path):
 
     # Load the Tahoma font
     try:
-        font = ImageFont.truetype("tahoma.ttf", 30)
+        fnt = ImageFont.truetype("Pillow/Tests/fonts/tahoma.ttf", 72)
     except IOError:
         print("Tahoma font not found, using default font.")
-        font = ImageFont.load_default()
-
+        fnt = ImageFont.load_default()
+        
     # Text to be drawn
-    text = "@NivellemStudio"
+    txt = "@NivellemStudio"
+    
+    x_offset = int(width * 0.72)
+    y_offset = int(height * 0.92)
+    
+    # Create a separate image to draw the shadow
+    shadow_layer = Image.new('RGBA', original_image.size, (0, 0, 0, 0))
+    shadow_draw = ImageDraw.Draw(shadow_layer)
+    
+    # Shadow offsets
+    shadow_offset_x = 2  # Horizontal offset for shadow
+    shadow_offset_y = 2  # Vertical offset for shadow
 
-    # Calculate width and height of the text to be drawn
-    textwidth, textheight = draw.textsize(text, font=font)
+    # Draw shadow
+    shadow_draw.text(
+        (x_offset + shadow_offset_x, y_offset + shadow_offset_y),
+        text=txt,
+        font=fnt,
+        fill=(0, 0, 0, 255)  # RGBA: Black color with 50% opacity
+    )
+    
+    # Crop the area around the shadow text
+    shadow_area = original_image.crop((x_offset, y_offset, x_offset + 600, y_offset + 100))  # Adjust these values as needed
 
-    # Calculate X, Y position of the watermark
-    x = width - textwidth - 10  # 10 pixels from the right edge
-    y = height - textheight - 10  # 10 pixels from the bottom edge
+    # Convert the cropped area to RGBA if it's not
+    if shadow_area.mode != 'RGBA':
+        shadow_area = shadow_area.convert('RGBA')
 
-    # Draw the shadow first
-    shadow_offset = 2
-    draw.text((x + shadow_offset, y + shadow_offset), text, font=font, fill=(50, 50, 50, 128))
+    # Apply Gaussian blur to the shadow
+    blurred_shadow = shadow_layer.filter(ImageFilter.GaussianBlur(10))  # The parameter controls the blur radius
+
+    # Convert the blurred shadow to RGBA if it's not
+    if blurred_shadow.mode != 'RGBA':
+        blurred_shadow = blurred_shadow.convert('RGBA')
+
+    # Paste the blurred shadow back onto the original image
+    original_image = Image.alpha_composite(original_image, blurred_shadow)  # The mask ensures the alpha channel is used
 
     # Draw text
-    draw.text((x, y), text, font=font, fill=(255, 255, 255, 128))
+    draw.text((x_offset, y_offset), text=txt, font=fnt, fill=(255, 255, 255, 255))
 
     # Save watermarked image
     original_image.save(output_image_path)
@@ -45,7 +76,14 @@ def main():
     root.withdraw()
 
     # Open folder dialog
-    folder_path = filedialog.askdirectory(title="Select Folder")
+    root = Tk()
+    root.withdraw()  # Hide the Tk window
+    folder_path = None
+    while not folder_path:  # Loop until a folder is selected
+        folder_path = filedialog.askdirectory(title="Select Folder")
+        if not folder_path:
+            print("No folder selected. Please choose a folder to proceed.")
+    root.destroy()  # Destroy the Tk root window
 
     # Check if the user canceled the folder selection
     if not folder_path:
@@ -53,7 +91,8 @@ def main():
         return
 
     # Create 'watermarked_output' subfolder if it doesn't exist
-    output_folder = os.path.join(folder_path, 'watermarked_output')
+ 
+    output_folder = os.path.join(folder_path, 'Upscale_watermarked_output')
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
