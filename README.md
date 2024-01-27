@@ -11,20 +11,26 @@ pretrain_network_g: experiments/pretrained_models/RealESRGAN_x4plus.pth
 
 https://github.com/xinntao/Real-ESRGAN/issues/407
 
-https://github.com/onnx/onnxmltools
-
 https://github.com/xinntao/Real-ESRGAN/issues/433
 
 https://github.com/xinntao/Real-ESRGAN/issues/586
 
+https://github.com/onnx/onnxmltools
+
+https://developer.nvidia.com/cuda-11-8-0-download-archive
 
 ```bash
 pip install onnxmltools
 pip install wheel
+
+pip install torch==2.0.0+cu118 -f https://download.pytorch.org/whl/torch_stable.html
+pip install torchvision==0.15.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
+
 # Install basicsr - https://github.com/xinntao/BasicSR
 # We use BasicSR for both training and inference
 pip install basicsr
 # facexlib and gfpgan are for face enhancement
+
 pip install facexlib
 pip install gfpgan
 pip install -r requirements.txt
