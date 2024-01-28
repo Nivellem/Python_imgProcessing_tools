@@ -18,9 +18,22 @@ https://www.python.org/downloads/release/python-31011/
 Install Nvidia CUDA
 https://developer.nvidia.com/cuda-11-8-0-download-archive
 
+Install Git
+https://git-scm.com/downloads
 
+```powershell
+# clone git repo
+git clone https://github.com/xinntao/Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN.git
 
-```bash
+# Enter repo folder
+cd Real-ESRGAN
+
+```
+
+```powershell
+
+# be sure you are in Real-ESRGAN folder
+
 pip install onnxmltools
 pip install wheel
 
