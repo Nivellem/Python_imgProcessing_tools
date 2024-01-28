@@ -23,7 +23,7 @@ https://git-scm.com/downloads
 
 ```powershell
 # clone git repo
-git clone https://github.com/xinntao/Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN.git
+git clone https://github.com/xinntao/Real-ESRGAN.git
 
 # Enter repo folder
 cd Real-ESRGAN
