@@ -9,15 +9,16 @@ pretrain_network_g: experiments/pretrained_models/RealESRNet_x4plus.pth
 to:
 pretrain_network_g: experiments/pretrained_models/RealESRGAN_x4plus.pth
 
-https://github.com/xinntao/Real-ESRGAN/issues/407
+#install Real-ESRGAN
 
-https://github.com/xinntao/Real-ESRGAN/issues/433
+Install python 3.10.11
 
-https://github.com/xinntao/Real-ESRGAN/issues/586
+https://www.python.org/downloads/release/python-31011/
 
-https://github.com/onnx/onnxmltools
-
+Install Nvidia CUDA
 https://developer.nvidia.com/cuda-11-8-0-download-archive
+
+
 
 ```bash
 pip install onnxmltools
@@ -37,6 +38,13 @@ pip install -r requirements.txt
 python setup.py develop
 ```
 
+https://github.com/onnx/onnxmltools
+
+https://github.com/xinntao/Real-ESRGAN/issues/407
+
+https://github.com/xinntao/Real-ESRGAN/issues/433
+
+https://github.com/xinntao/Real-ESRGAN/issues/586
 ## detect if img is squere
 15% tolerance
 
