@@ -9,7 +9,7 @@ pretrain_network_g: experiments/pretrained_models/RealESRNet_x4plus.pth
 to:
 pretrain_network_g: experiments/pretrained_models/RealESRGAN_x4plus.pth
 
-#install Real-ESRGAN
+# install Real-ESRGAN
 
 Install python 3.10.11
 
