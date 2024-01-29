@@ -194,7 +194,7 @@ pip install mkdocs-material
 ```powershell
 
 git clone https://github.com/abetlen/llama-cpp-python/tree/main
-
+git clone https://github.com/pythongosssss/ComfyUI-Custom-Scripts
 ```
 
 ## Open Visual Studio 2019 And open llama-cpp-python
