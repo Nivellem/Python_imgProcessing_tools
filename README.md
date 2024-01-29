@@ -150,7 +150,7 @@ In your User variables, select the Path variable and then select Edit.
 Select New and add the MinGW-w64 destination folder you recorded during the installation process to the list. If you used the default settings above, then this will be the path: 
 
 ``` add to Path
-C:\msys64\ucrt64\bin.
+C:\msys64\ucrt64\bin
 ```
 
 Select OK to save the updated PATH. You will need to reopen any console windows for the new PATH location to be available.
