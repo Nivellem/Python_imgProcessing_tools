@@ -207,6 +207,11 @@ pip install llama-cpp-python
 
 ![image](https://github.com/Nivellem/Python_imgProcessing_tools/assets/84031994/1cf6c4a9-43c8-4b89-abf0-57b2575e1721)
 
+Output 
+
+![image](https://github.com/Nivellem/Python_imgProcessing_tools/assets/84031994/8a96d061-0ae0-47bf-bdd9-c989d3c8cd87)
+
+
 
 
 
