@@ -125,6 +125,10 @@ https://cmake.org/download/
 
 https://code.visualstudio.com/docs/cpp/config-mingw
 
+https://www.msys2.org/
+
+https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe
+
 You can download the latest installer from the MSYS2 page or use this direct link to the installer.
 
 Run the installer and follow the steps of the installation wizard. Note that MSYS2 requires 64 bit Windows 8.1 or newer.
