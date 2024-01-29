@@ -106,20 +106,22 @@ ERROR: Could not build wheels for llama-cpp-python, which is required to install
 ```
 
 
-## How to fix
+# How to fix
 
-# Install VIsual Studio 2019
+
+## Install VIsual Studio 2019
+
 
 https://my.visualstudio.com/Downloads?q=visual%20studio%202019&wt.mc_id=o~msft~vscom~older-downloads
 
 
 https://visualstudio.microsoft.com/pl/vs/older-downloads/
 
-# Install CMake 
+## Install CMake 
 
 https://cmake.org/download/
 
-# Install Mingw
+## Install Mingw
 
 https://code.visualstudio.com/docs/cpp/config-mingw
 
@@ -195,7 +197,7 @@ git clone https://github.com/abetlen/llama-cpp-python/tree/main
 
 ```
 
-# Open Visual Studio 2019 And open llama-cpp-python
+## Open Visual Studio 2019 And open llama-cpp-python
 
 ```powershell
 
